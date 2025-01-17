@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Niconico Video Downloader",
+  "version": "1.0",
+  "description": "ニコニコ動画のダウンロードを簡単にするFirefoxアドオン。",
+  "permissions": [
+    "tabs",
+    "activeTab"
+  ],
+  "permissions": [
+  "tabs",
+  "activeTab",
+  "https://www.nicovideo.jp/*",
+  "https://ext.nicovideo.jp/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "Download Niconico Video",
+    "default_icon": {
+      "48": "icon.png"
+    }
+  }
+}
