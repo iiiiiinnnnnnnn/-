@@ -7,26 +7,19 @@ browser.browserAction.onClicked.addListener(async (tab) => {
     if (videoId) {
       console.log("Video ID found:", videoId);
 
-      // リクエストURL
+      // ext.nicovideo.jp にアクセスするURLを作成
       const extUrl = `https://ext.nicovideo.jp/?${videoId}`;
-      console.log("Sending request to:", extUrl);
 
+      // 新しいタブを開く
+      const newTab = await browser.tabs.create({ url: extUrl });
+      console.log("New tab created with URL:", extUrl);
+
+      // スクリプトを挿入
       try {
-        // バックグラウンドでリクエストを送信
-        const response = await fetch(extUrl);
-        if (response.ok) {
-          console.log("Request succeeded. Status:", response.status);
-
-          // 必要に応じてレスポンスを処理
-          const text = await response.text();
-          console.log("Response content:", text);
-
-          // レスポンスを元に何らかの処理を実行 (例: ファイルのダウンロード)
-        } else {
-          console.error("Request failed. Status:", response.status);
-        }
+        await browser.tabs.executeScript(newTab.id, { file: "content.js" });
+        console.log("Content script injected successfully.");
       } catch (error) {
-        console.error("Error fetching URL:", error);
+        console.error("Error injecting content script:", error);
       }
     } else {
       console.error("Could not extract video ID from URL.");
